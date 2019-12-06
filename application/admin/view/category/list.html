@@ -1,0 +1,56 @@
+{extend name="public/base" /}
+
+{block name="content"}
+<div class="panel admin-panel">
+  <div class="panel-head"><strong class="icon-reorder"> 内容列表</strong></div>
+  <div class="padding border-bottom">
+    <button type="button" class="button border-yellow" onclick="window.location.href='/admin/category/create'"><span class="icon-plus-square-o"></span> 添加分类</button>
+  </div>
+  <table class="table table-hover text-center">
+    <tr>
+      <th width="5%">ID</th>
+      <th width="15%">分类名称</th>
+      <th width="10%">首页展示</th>
+      <th width="10%">操作</th>
+    </tr>
+    {volist name="cats" id="vo"}
+    <tr>
+      <td>{$i}</td>
+      <td>{$vo.lv  | str_repeat='——', ###}{$vo.cat_name}</td>
+      <td>
+        {if($vo.is_index)}
+        <img src="/static/admin/images/yes.gif" alt="" />
+        {else/}
+        <img src="/static/admin/images/no.gif" alt="" />
+        {/if}
+      </td>
+      <td>
+        <div class="button-group">
+          <a class="button border-main" href="/admin/category/{$vo.cat_id}/edit">
+            <span class="icon-edit"></span> 修改</a>
+          <a class="button border-red" href="javascript:void(0)" onclick="del({$vo.cat_id})">
+            <span class="icon-trash-o"></span> 删除</a> </div></td>
+    </tr>
+    {/volist}
+  </table>
+</div>
+<script type="text/javascript">
+function del(id){
+	layer.confirm("您确定要删除此分类吗?",function(){
+	    $.ajax({
+	        type:"delete",
+            url: '/admin/category/'+id,
+            datatype: "json",
+            success: function(res){
+                if(res.status == 'success'){
+                    layer.msg(res.msg,{icon:1});
+                }else{
+                    layer.msg(res.msg,{icon:2});
+                }
+                location.href = '/admin/category';
+            }
+        })
+	})
+}
+</script>
+{/block}

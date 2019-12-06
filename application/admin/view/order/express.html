@@ -1,0 +1,69 @@
+{extend name="public/base" /}
+
+{block name="content"}
+<div class="panel admin-panel margin-top" id="add">
+  <div class="panel-head"><strong><span class="icon-pencil-square-o"></span> 填写快递信息</strong></div>
+  <div class="body-content">
+    <form method="post" class="form-x" action="/admin/order/do_express">
+      <div class="form-group">
+        <div class="label">
+          <label>收件人：</label>
+        </div>
+        <div class="field">
+          <input type="text" class="input w50" value="{$address.name}"  />
+          <div class="tips"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="label">
+          <label>电话号码：</label>
+        </div>
+        <div class="field">
+          <input type="text" class="input w50" value="{$address.mobile}" />
+          <div class="tips"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="label">
+          <label>地址：</label>
+        </div>
+        <div class="field">
+          <input type="text" class="input w50" value="{$address['pro'].$address['city'].$address['dis'].$address['street']}" />
+          <div class="tips"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="label">
+          <label>快递公司：</label>
+        </div>
+        <div class="field">
+          <select name="exp_name" class="input w50">
+            <option value="">请选择</option>
+            <option value="yd">韵达</option>
+            <option value="zto">韵达</option>
+          </select>
+          <div class="tips"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="label">
+          <label>快递单号：</label>
+        </div>
+        <div class="field">
+          <input type="text" class="input w50" value="" name="exp_no"  />
+          <input type="hidden" name="order_id" value="{$order_id}" />
+          <div class="tips"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="label">
+          <label></label>
+        </div>
+        <div class="field">
+          <button class="button bg-main icon-check-square-o" type="submit"> 提交</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+{/block}

@@ -1,0 +1,90 @@
+﻿{include file="public/header" /}
+
+<link href="/static/home/css/index_3.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" type="text/css" href="/static/home/css/bottom.css" media="all" />
+<link href="/static/home/css/index.css-3bbe4d5f.css" rel="stylesheet" type="text/css" />
+
+</head>
+<body class="media_screen_1200">
+{include file="public/nav" /}
+<div id="body_wrap">
+ <div id="body" class="fm960">
+  <div class="re_wrap">
+   <form action="/user/do_comment" method="post">
+    <h1 class="re_tit"> 评价商品 </h1>
+    <div class="re_content" id="reContentView">
+     <div class="re_main clearfix">
+      <div class="re_sidebox fl">
+       <h5 class="re_sidebox_tit">商品</h5>
+       <div class="re_sidebox_imginfo">
+        <a href="/goods/detail/id/{$order.goods_id}"  target="_blank" class="shopitem-link">
+         <img src="/{$order.goods_img}" alt="" width="64" height="64" />
+        </a>
+        <a href="/goods/detail/id/{$order.goods_id}" target="_blank" class="shopitem-link re_sidebox_imginfo_t singleline re_link">
+         {$order.goods_name}<p></p></a>
+       </div>
+       <dl class="re_sidebox_dlist re_sidebox_dlist_min">
+        <dt>
+         单价：
+        </dt>
+        <dd>
+         {$order.goods_price}元 x {$order.goods_num}（数量）
+        </dd>
+        <dt>
+         小计：
+        </dt>
+        <dd class="re_red">
+         {$order.fee}元
+        </dd>
+       </dl>
+       <h5 class="re_sidebox_tit">属于订单</h5>
+       <dl class="re_sidebox_dlist">
+        <dt>
+         订单编号：
+        </dt>
+        <dd>
+         <a target="_blank" class="shopitem-number re_sidebox_imginfo_t singleline re_link shopitem-order">
+          {$order.sub_trade_no}</a>
+        </dd>
+        <dt>
+         总计：
+        </dt>
+        <dd>
+         {$order.fee}元
+        </dd>
+        <dt>
+         成交时间：
+        </dt>
+        <dd>
+         {$order.create_time|date="Y-m-d H:i:s"}
+        </dd>
+       </dl>
+      </div>
+      <div class="re_cntbox" id="reView">
+       <!-- notice -->
+       <dl class="re_page_step_form" id="refunGoodsFormDom">
+        <dt>
+         商品评价：
+        </dt>
+        <dd>
+         <input type="hidden" name="goods_id" value="{$order.goods_id}" />
+         <input type="hidden" name="order_id" value="{$order.id}" />
+         <textarea class="J_refundGoodsDesc re_full_width re_text mt10" placeholder="填写退款说明，退款处理更快捷" name="content" id="refundIntro" cols="30" rows="4"></textarea>
+         <p class="follow_tip">最多200字</p>
+        </dd>
+        <dd>
+         <button id="refundGoodsSubmit" href="javascript:;" class="J_refundGoodsSubmit re_norbtn">提交申请</button>
+        </dd>
+       </dl>
+      </div>
+     </div>
+
+    </div>
+   </form>
+  </div>
+
+ </div>
+</div>
+
+</body>
+</html>

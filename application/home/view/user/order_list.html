@@ -1,0 +1,119 @@
+﻿{include file="public/header" /}
+  <link href="/static/home/css/index_1.css" rel="stylesheet" type="text/css" /> 
+  <link rel="stylesheet" type="text/css" href="/static/home/css/bottom.css" media="all" /> 
+  <link href="/static/home/css/index.css-a2f37bbc.css" rel="stylesheet" type="text/css" />
+ </head> 
+ <body class="media_screen_1200">
+ {include file="public/nav" /}
+  <div id="body_wrap"> 
+   <div class="mu_wrap wrap clearfix"> 
+    <div id="navListWrap">
+     <div class="mu_nav_wrap">
+
+
+      {include file="public/side" /}
+	
+	
+    <div class="mu_content_wrap">
+     <div class="order-title"> 
+      <ul class="order-title-column clearfix"> 
+       <li class="goods">商品</li> 
+       <li class="price">单价(元)</li> 
+       <li class="quantity">数量</li> 
+       <li class="aftersale">售后</li> 
+       <li class="total">实付款(元)</li> 
+       <li class="status">交易状态</li> 
+       <li class="other">操作</li> 
+      </ul> 
+     </div> 
+     <div id="orderWrap">
+      <div class="order-list"> 
+       <div class="order-section finished">
+        <table class="order-table"> 
+         <tbody>
+         {volist name="orders" id="vo"}
+          <tr class="order-table-header"> 
+           <td colspan="7"> 
+            <div class="order-info fl"> 
+             <span class="no"> 订单编号：
+              <span class="order_num"> {$vo.sub_trade_no} </span>
+             </span>
+             <span class="deal-time"> 成交时间：{$vo.create_time|date="Y-m-d H:i:s"} </span>
+            </div></td>
+          </tr> 
+          <tr class="order-table-item last"> 
+           <td class="goods">
+            <a class="pic" href="/goods/detail/id/{$vo.goods_id}" title="查看宝贝详情" hidefocus="true" target="_blank">
+             <img src="/{$vo.goods_img}" alt="查看宝贝详情" width="70" />
+            </a>
+            <div class="desc"> 
+             <p> <a href="/goods/detail/id/{$vo.goods_id}" target="_blank">{$vo.goods_name}</a></p>
+             <p>颜色：{$vo.goods_color_desc}</p>
+             <p>尺码：{$vo.goods_type}</p>
+            </div>
+           </td>
+           <td class="price"> <p class="price-old">{$vo.original_price}</p> <p>{$vo.goods_price}</p> </td>
+           <td class="quantity">{$vo.goods_num}</td>
+           <td class="aftersale"> </td> 
+           <td class="total" rowspan="1"> <p class="total-price">￥ {$vo.fee}</p> <p> <span>(全国包邮)</span> </p> </td>
+           <td class="status" rowspan="1">
+            {if($vo.exp_no)}
+            <p>已发货</p>
+            <a href="javascript:;" class="order-link go-detail-link" target="_blank">物流查询</a>
+            <div class="delivery" data-exp_name="{$vo.exp_name}" data-exp_no="{$vo.exp_no}"></div>
+
+            {else/}
+             <p>未发货</p>
+            {/if}
+           </td>
+           <td class="other" rowspan="1"> 
+            <ul> 
+             <li><a class="order-link order-remove" href="javascript:;">删除订单</a></li>
+             {if($vo.exp_no)}
+               {if($vo.is_rec)}
+                  <li><p>已收货</p></li>
+               {else/}
+                  <li><a class="order-link order-remove" href="javascript:;" onclick="confirm_goods({$vo.id})">确认收货</a></li>
+                {/if}
+                 {if(!$vo.is_refund)}
+                 <li><a class="order-link order-remove" href="/user/refund/oid/{$vo.id}">申请退款</a></li>
+                 {elseif($vo.is_refund==1)}
+                 <li><span class="order-link order-remove" href="javascript:;">正在退款中</span></li>
+                 {else/}
+                 <li><span class="order-link order-remove" href="javascript:;">已退款</span></li>
+                 {/if}
+             {/if}
+            </ul> </td>
+
+          </tr>
+         {/volist}
+         </tbody> 
+        </table>
+        <div class="pagelist">{$orders|raw}</div>
+       </div>
+      </div>
+     </div> 
+    </div> 
+   </div> 
+  </div>
+    <script>
+     $(".go-detail-link").hover(function(){
+         exp_name = $(".delivery").data('exp_name');
+         exp_no = $(".delivery").data('exp_no');
+
+         $.post("/user/query_exp",{'exp_name':exp_name,"exp_no":exp_no},
+             function(res){
+             if(res.status == 'success'){
+                 $('.delivery').html(res.html);
+             }
+         })
+     })
+
+     function confirm_goods(oid) {
+         if(confirm('您确认收到货物了吗？')){
+             location.href = "/user/comment/oid/"+oid;
+         }
+     }
+    </script>
+ </body>
+</html>

@@ -1,0 +1,68 @@
+{extend name="public/base" /}
+
+{block name="content"}
+
+<div class="panel admin-panel margin-top">
+  <div class="panel-head" id="add"><strong><span class="icon-pencil-square-o"></span>添加内容</strong></div>
+  <div class="body-content">
+    <form method="post" class="form-x" action="/admin/category/{$cat.cat_id}">
+      <input type="hidden" name="_method" value="put" />
+      <input type="hidden" name="cat_id" value="{$cat.cat_id}" />
+      <div class="form-group">
+        <div class="label">
+          <label>上级分类：</label>
+        </div>
+        <div class="field">
+          <select name="pid" id="pid" class="input w50" onchange="setIndex()">
+            {if ($cat.pid==0)}
+            <option value="0">顶级分类</option>
+            {else/}
+            {volist name="top_cat" id="vo"}
+            <option value="{$vo['cat_id']}" {$cat.pid==$vo.cat_id?"selected":""}>{$vo['cat_name']}</option>
+             {/volist}
+            {/if}
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="label">
+          <label>分类名称：</label>
+        </div>
+        <div class="field">
+          <input type="text" class="input w50" name="cat_name" value="{$cat.cat_name}"/>
+          <div class="tips"></div>
+        </div>
+      </div>
+      {if($cat.pid)}
+      <div class="form-group" id="index">
+        <div class="label">
+          <label>是否首页展示：</label>
+        </div>
+        <div class="field" style="padding-top:8px;">
+          是 <input type="radio"  name="is_index" value="1" {$cat.is_index?'checked':''}/>
+          否 <input type="radio"  name="is_index" value="0" {$cat.is_index?'':'checked'} />
+        </div>
+      </div>
+      {/if}
+      <div class="form-group">
+        <div class="label">
+          <label></label>
+        </div>
+        <div class="field">
+          <button class="button bg-main icon-check-square-o" type="submit"> 提交</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<script>
+    function setIndex(){
+        pid = $('#pid').val();
+        if(pid) {
+            $('#index').show();
+        }else {
+            $('#index').hide();
+        }
+    }
+</script>
+{/block}

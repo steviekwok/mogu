@@ -1,0 +1,83 @@
+﻿{include file="public/header" /}
+  <link href="/static/home/css/index_1.css" rel="stylesheet" type="text/css" /> 
+  <link rel="stylesheet" type="text/css" href="/static/home/css/bottom.css" media="all" /> 
+  <link href="/static/home/css/index.css-a2f37bbc.css" rel="stylesheet" type="text/css" /> 
+
+
+ </head> 
+ <body class="media_screen_1200">
+
+ {include file="public/nav" /}
+  
+  <div id="body_wrap"> 
+   <div class="mu_wrap wrap clearfix"> 
+    <div id="navListWrap">
+     <div class="mu_nav_wrap">
+
+
+      {include file="public/side" /}
+	  
+    <div class="mu_content_wrap"> 
+     <div class="order-search" id="searchControl" style="display: block;"> 
+ 
+     </div> 
+
+     <div id="orderWrap">
+      <div class="order-list"> 
+       <div class="order-section unpaid"> 
+        <table class="order-table"> 
+         <tbody>
+         {volist name="nopay_orders" id="vo"}
+            {volist name="vo.sub_trade" id="v"}
+          <tr class="order-table-header"> 
+           <td colspan="7"> 
+            <div class="order-info fl"> 
+             <span class="no"> 订单编号： <span class="order_num"> {$v.sub_trade_no} </span> </span>
+             <span class="deal-time"> 成交时间：{$v.create_time|date="Y-m-d H:s:i"} </span>
+          </tr> 
+          <tr class="order-table-item last"> 
+           <td class="goods">
+            <a class="pic" href="/goods/detail/id/{$v.goods_id}" title="查看宝贝详情" hidefocus="true" target="_blank">
+            <img src="/{$v.goods_img}" alt="查看宝贝详情" width="70" />
+            </a>
+            <div class="desc"> 
+             <p> <a href="/goods/detail/id/{$v.goods_id}" target="_blank">{$v.goods_name}</a> </p>
+             <p>颜色：{$v.goods_color_desc}</p>
+             <p>尺码：{$v.goods_type}</p>
+
+            </div> </td> 
+           <td class="price"> <p class="price-old">{$v.original_price}</p> <p>{$v.goods_price}</p> </td>
+           <td class="quantity">{$v.goods_num}</td>
+           <td class="aftersale"> </td> 
+           <td class="total" rowspan="1"> <p class="total-price">￥ {$v.fee}</p> <p> <span>(全国包邮)</span> </p> </td>
+           <td class="status" rowspan="1"> <p class="wait_pay"> 待付款 </p>
+            <a href="/order/detail4buyer?orderId=79564682635946" class="order-link go-detail-link" target="_blank">订单详情</a> </td>
+           <td class="other" rowspan="1"> </td> 
+          </tr>
+         {/volist}
+          <tr class="order-table-footer"> 
+           <td colspan="4"> 
+            <ul> 
+             <li> <p class="timer" data-time="878">还剩0天0时14分</p> </li> 
+             <li> <a class="order-link order-cancel" href="javascript:;" data-payid="79564682625946">取消订单</a> </li> 
+            </ul> </td> 
+           <td class="total"> <span class="sub">总计：</span>￥{$vo.total} </td>
+           <td class="status"> <p class="wait_pay">等待付款</p> </td> 
+           <td class="other"> <a class="order-btn primary order-pay" target="_blank" href="/user/pay/info/{$vo.info}">付款</a> </td>
+          </tr>
+
+         {/volist}
+         </tbody> 
+        </table> 
+       </div> 
+      </div>
+      <div id="paginator-list"></div>
+     </div> 
+    </div> 
+   </div> 
+  </div> 
+  
+
+
+ </body>
+</html>

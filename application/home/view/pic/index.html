@@ -1,0 +1,105 @@
+﻿{include file="public/header" /}
+  <link href="/static/home/css/index.css-ccfdf3f4.css" rel="stylesheet" type="text/css" /> 
+  <link rel="stylesheet" type="text/css" href="/static/home/css/bottom.css" media="all" /> 
+  <link href="/static/home/css/index.css-a267bc7f.css" rel="stylesheet" type="text/css" /> 
+  <link rel="stylesheet" href="/static/home/css/index-2.css" />
+  <link rel="stylesheet" type="text/css" href="/static/lib/webuploader-0.1.5/webuploader.css">
+   <script type="text/javascript" src="/static/lib/webuploader-0.1.5/webuploader.js"></script>
+<script src="/static/lib/layer/layer.js"></script>
+<style type="text/css">
+ .webuploader-pick {
+     background-color: #f46;
+     width: 50px;
+    }
+</style>
+ </head> 
+ <body class="media_screen_960 media_screen_1200">
+ {include file="public/nav" /}
+ <div id="body_wrap">
+  <div id="body_content_wrap">
+   <div id="body" class="fm970">
+    <div class="per_wrap clearfix" id="per_wrap">
+     <div id="navListWrap">
+      <div class="mu_nav_wrap">
+
+       {include file="public/side" /}
+
+
+       <div class="per_content_wrap" id="per_content_wrap">
+        <div class="main_content">
+         <div class="content_header">
+          设置头像
+         </div>
+         <div class="content_form">
+          <div class="avatar_form">
+           <form class="ui-form" method="post" enctype="multipart/form-data">
+            <img id="nickPic" class="ui-pic" src="{$img_url?'/'.$img_url:'/static/home/images/touxiang.jpg'}" alt="" />
+            <div class="ui-tip" id="filePicker">
+             <span  class="ui-change">更换头像</span>
+             <div class="ui-bg"></div>
+            </div>
+           </form>
+          </div>
+          <span id="pic-tip" class="ui-pic-tip"></span>
+          <div class="subbox clearfix">
+           <a href="javascript:void(0)" id="btn_submit" class="btn_check">完成</a>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+   </div>
+ <script>
+     function delayURL(url,time){
+         setTimeout("top.location.href = '" + url + "'",time);
+     }
+
+     var uploader = WebUploader.create({
+
+         // 选完文件后，是否自动上传。
+         auto: true,
+
+         // swf文件路径
+         swf: '/static/lib/webuploader-0.1.5/Uploader.swf',
+
+         // 文件接收服务端。
+         server: '/home/Pic/upload',
+
+         // 选择文件的按钮。可选。
+         // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+         pick: '#filePicker',
+
+         // 只允许选择图片文件。
+         accept: {
+             title: 'Images',
+             extensions: 'gif,jpg,jpeg,bmp,png',
+             mimeTypes: 'image/*'
+         }
+     });
+
+     // 文件上传成功，给item添加成功class, 用样式标记上传成功。
+     uploader.on( 'uploadSuccess', function( file, data ) {
+         if(data.status == 'success') {
+             $('#nickPic').attr('src', '/'+data.msg);
+             $('.ui-form').append('<input type="hidden" id="img_url" name="img_url" value='+data.msg+'> ');
+         }else {
+             $('#pic-tip').html('<span style="color:red">'+data.msg+'</span>');
+         }
+     });
+
+     $('#btn_submit').click(function(){
+         img_url = $('#img_url').val();
+         $.post('/home/Pic/update', {'img_url':img_url}, function(res){
+             if(res.status == 'success') {
+                 layer.msg('更换成功', {icon:1});
+             }else{
+                 layer.msg('更换失败', {icon:2});
+             }
+             delayURL( '/user/pic', 3000);
+         })
+     })
+ </script>
+ </body>
+</html>
